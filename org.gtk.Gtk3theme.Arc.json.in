@@ -1,0 +1,54 @@
+{
+  "id": "org.gtk.Gtk3theme.Arc",
+  "branch": "3.22",
+  "runtime": "org.gnome.Sdk",
+  "build-extension": true,
+  "sdk": "org.gnome.Sdk",
+  "runtime-version": "3.24",
+  "appstream-compose": false,
+  "separate-locales": false,
+  "build-options": {
+    "prefix": "/usr/share/runtime"
+  },
+  "modules": [
+    {
+      "name": "arc-theme",
+      "cleanup": [ "thumbnail.png" ],
+      "config-opts": [
+        "--disable-gnome-shell",
+        "--disable-gtk2",
+        "--disable-cinnamon",
+        "--disable-metacity",
+        "--disable-unity",
+        "--disable-xfwm",
+        @CONFIG_OPTS@
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/horst3180/arc-theme/archive/20170302.tar.gz",
+          "sha256": "9ca5c1d1ac267c4ae3725e84519d42bfb8c4c6934989839ebe3cb8699fbdfd45"
+        },
+        {
+          "type": "patch",
+          "path": "append-solid-suffix.patch"
+        }
+      ]
+    },
+    {
+      "name": "appdata",
+      "buildsystem": "simple",
+      "build-commands": [
+        "mkdir -p ${FLATPAK_DEST}/share/appdata",
+        "cp org.gtk.Gtk3theme.Arc.appdata.xml ${FLATPAK_DEST}/share/appdata",
+        "appstream-compose --basename=org.gtk.Gtk3theme.Arc --prefix=${FLATPAK_DEST} --origin=flatpak org.gtk.Gtk3theme.Arc"
+      ],
+      "sources": [
+        {
+          "type": "file",
+          "path": "org.gtk.Gtk3theme.Arc.appdata.xml"
+        }
+      ]
+  }
+  ]
+}

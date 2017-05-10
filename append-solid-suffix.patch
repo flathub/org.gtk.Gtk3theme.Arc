@@ -1,0 +1,29 @@
+From 110fd578c0f313f4ab77066c3ed1f461c8352cf7 Mon Sep 17 00:00:00 2001
+From: Patrick Griffis <tingping@tingping.se>
+Date: Wed, 10 May 2017 17:38:54 -0400
+Subject: [PATCH] append-solid-suffix
+
+---
+ common/Makefile.am | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/common/Makefile.am b/common/Makefile.am
+index 0421c5d..58f54d8 100644
+--- a/common/Makefile.am
++++ b/common/Makefile.am
+@@ -1,6 +1,12 @@
++if !ENABLE_TRANSPARENCY
++themedir        = $(datadir)/themes/Arc-solid
++themedarkerdir  = $(datadir)/themes/Arc-Darker-solid
++themedarkdir    = $(datadir)/themes/Arc-Dark-solid
++else
+ themedir        = $(datadir)/themes/Arc
+ themedarkerdir  = $(datadir)/themes/Arc-Darker
+ themedarkdir    = $(datadir)/themes/Arc-Dark
++endif
+ 
+ ithemedir       = $(DESTDIR)$(themedir)
+ ithemedarkerdir   = $(DESTDIR)$(themedarkerdir)
+-- 
+2.12.2
+
