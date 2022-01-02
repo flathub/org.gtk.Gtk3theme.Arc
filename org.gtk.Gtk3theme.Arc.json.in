@@ -3,35 +3,66 @@
   "branch": "3.22",
   "runtime": "org.freedesktop.Platform",
   "sdk": "org.freedesktop.Sdk",
-  "runtime-version": "1.6",
+  "runtime-version": "21.08",
   "build-extension": true,
   "appstream-compose": false,
   "separate-locales": false,
   "build-options": {
-    "prefix": "/usr/share/runtime"
+    "prefix": "/usr/share/runtime/share/themes/Arc/gtk-3.0",
+    "append-path": "/usr/share/runtime/share/themes/Arc/gtk-3.0/bin"
   },
   "modules": [
     {
+      "name": "sassc",
+      "config-opts": ["--with-libsass=/usr/share/runtime/share/themes/Arc/gtk-3.0"],
+      "cleanup": ["*"],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/sass/sassc/archive/3.5.0.tar.gz",
+          "sha256": "26f54e31924b83dd706bc77df5f8f5553a84d51365f0e3c566df8de027918042"
+        },
+        {
+          "type": "script",
+          "dest-filename": "autogen.sh",
+          "commands": ["autoreconf -si"]
+        }
+      ],
+      "modules": [
+        {
+          "name": "libsass",
+          "cleanup": ["*"],
+          "sources": [
+            {
+              "type": "archive",
+              "url": "https://github.com/sass/libsass/archive/3.5.4.tar.gz",
+              "sha256": "5f61cbcddaf8e6ef7a725fcfa5d05297becd7843960f245197ebb655ff868770"
+            },
+            {
+              "type": "script",
+              "dest-filename": "autogen.sh",
+              "commands": ["autoreconf -si"]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "arc-theme",
+      "buildsystem": "meson",
+      "build-options": {
+        "prefix": "/usr/share/runtime"
+      },
       "cleanup": [ "thumbnail.png" ],
       "config-opts": [
-        "--disable-gnome-shell",
-        "--disable-gtk2",
-        "--disable-cinnamon",
-        "--disable-metacity",
-        "--disable-unity",
-        "--disable-xfwm",
+        "-Dthemes=gtk3",
         @CONFIG_OPTS@
       ],
       "sources": [
         {
           "type": "archive",
-          "url": "https://github.com/horst3180/arc-theme/archive/20170302.tar.gz",
-          "sha256": "9ca5c1d1ac267c4ae3725e84519d42bfb8c4c6934989839ebe3cb8699fbdfd45"
-        },
-        {
-          "type": "patch",
-          "path": "append-solid-suffix.patch"
+          "url": "https://github.com/jnsh/arc-theme/releases/download/20220102/arc-theme-20220102.tar.xz",
+          "sha256": "1c03934c78b32c019c3ee45c46193f864402e49f72d9c8c9af780634a0495ed1"
         }
       ]
     },
